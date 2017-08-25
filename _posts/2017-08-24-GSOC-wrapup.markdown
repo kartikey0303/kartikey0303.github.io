@@ -3,6 +3,10 @@ layout: post
 title: "GSOC wrap-up"
 permalink: "GSOC-wrapup"
 ---
+
+<style type="text/css">
+	.page-header { color: #fff; text-align: center; background-color: #159957; background-image: linear-gradient(120deg, #1D976C, #93F9B9); }/*mojito*/
+</style>
 ### Project - [Improving blender addon for Terasology](https://summerofcode.withgoogle.com/projects/#5727406135443456)
 ### Organisation - [Moving Block](https://github.com/MovingBlocks)
 

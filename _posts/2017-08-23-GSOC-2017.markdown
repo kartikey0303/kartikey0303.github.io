@@ -3,7 +3,9 @@ layout: post
 title: "Google Summer of Code 2017"
 permalink: /GSOC-2017/
 ---
-
+<style type="text/css">
+	.page-header { color: #fff; text-align: center; background-color: #159957; background-image: linear-gradient(120deg, #3CA55C, #B5AC49); }/*lemon twist*/
+</style>
 
 My project for GSOC 2017 was [Improving blender addon for Terasology](https://summerofcode.withgoogle.com/projects/#5727406135443456). The project involved modifying the existing addon for blender to make it better suited for needs of the game.  
 
