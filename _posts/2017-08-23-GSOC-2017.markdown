@@ -1,14 +1,9 @@
 ---
 layout: post
-title: "GSOC 2017"
+title: "Google Summer of Code 2017"
 permalink: /GSOC-2017/
 ---
 
-<style>
-	.page-header { color: #fff; text-align: center; background-color: #159957; background-image: linear-gradient(120deg, #22c1c3, #fdbb2d); }/*summer*/
-	@media screen and (min-width: 64em) { .page-header { padding: 0rem 0rem; } }
-	.hide{display: none;}
-</style>
 
 My project for GSOC 2017 was [Improving blender addon for Terasology](https://summerofcode.withgoogle.com/projects/#5727406135443456). The project involved modifying the existing addon for blender to make it better suited for needs of the game.  
 
@@ -86,7 +81,7 @@ The commits were made to [TeraMisc](https://github.com/MovingBlocks/TeraMisc) an
 
 ![contribution]({{ site.url }}/assets/teraMiscGraph.jpg)
 
-## **[This](https://github.com/MovingBlocks/TeraMisc/commits/master?author=kartikey0303)** is a list of my Pull Requests for the TeraMisc repository.
+## **[This](https://github.com/MovingBlocks/TeraMisc/commits/master?author=kartikey0303)** is a list of my commits for the TeraMisc repository.
 
 ## Future
 My work is however not complete. The animation test tool still needs to be completed. However it requires help from `Behaviour`. Right now my solution was to add the animations to every pool then there would be 50% probability of chaining animations for testing animations.
