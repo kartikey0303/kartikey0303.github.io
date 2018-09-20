@@ -1,0 +1,139 @@
+---
+layout: post
+title: "Blender Add-on"
+---
+<style type="text/css">
+	.page-header { 
+		color: #fff; 
+		text-align: center; 
+		background-color: #159957; 
+		background-image: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%);
+		padding: 5rem 6rem; 
+		background-size: 400% 400%;
+		background-position: 400% 400%;
+		-webkit-animation: Gradient 15s ease infinite;
+		-moz-animation: Gradient 15s ease infinite;
+		animation: Gradient 15s ease infinite;
+	}
+	@-webkit-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+		}
+	50% {
+		background-position: 100% 50%
+		}	
+	100% {
+		background-position: 0% 50%
+		}	
+	}
+
+	@-moz-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+		}
+	}
+
+	@keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+		}
+	}
+</style>
+
+My project for GSOC 2017 was [Improving blender addon for Terasology](https://summerofcode.withgoogle.com/projects/#5727406135443456). The project involved modifying the existing addon for blender to make it better suited for needs of the game.  
+
+### *Not interested in the story? Skip directly to [Stats]({{ site.url }}/GSOC-2017/#stats)*  
+### *Story too long. Skip to [TL;DR]({{ site.url }}/GSOC-2017/#tldr)*
+
+## The Story
+I soon realized that most of the objectives that I had mentioned had already been done. Therefore we decided to add more features which would prove useful to a blender artist. I was familiar to [Blender API](https://docs.blender.org/api/blender_python_api_2_77_0/info_overview.html) but to the point where I had written code to repeat repetitive tasks.  
+
+### The UIList Problem
+One of the feature included adding a list(UIList) to the current UI which would display all the actions(animations) of the file. This would make it easier for the artist to export multiple animations at once.  
+As soon as started reasearching about this task(having little experience in blender API) I found a bug in the code. On exporting animations the addon would throw an error. Only if the mesh was exported first and then animation exported then the problem did not occur. The problem was that the addon was not able to calculate the coordinates of the bounding box of the mesh. This was being done indirectly using the `to_md5mesh()` function. I added a [line](https://github.com/MovingBlocks/TeraMisc/blob/master/blender_addons/io_md5_exporter/io_export_md5.py#L923) in the animation export which I still believe is a sort of a hack but it fixed the problem.  
+
+The next problem was populating the [UIList](https://docs.blender.org/api/blender_python_api_2_70_5/bpy.types.UIList.html) in blender API. I was unable to find a lot of references for this UI element. Finally I figured out that the a [custom property](https://github.com/MovingBlocks/TeraMisc/blob/master/blender_addons/io_md5_exporter/io_export_md5.py#L1406) needed to be created to populate the actions (this ended up getting changed at a later date). The custom property also needed a boolen property so that the artist could choose which animations they needed to change. However still a button needed to be pressed to refresh the list (This will be changed later).
+
+**I was stuck on the above problem for quite some time so in the meanwhile I started working on other features like exporting prefabs, textures and material file.**
+
+## The **"PREFAB"**
+The prefab which I had trouble understanding what it actually did in game was not difficult to implement in the addon
+It is a JSON file which looks something like this. Each field needed to be filled according to the model. Here coding in python came in handy as python has a module which makes this process very easy. So I initially began by loading a `template.prefab` file from the directory of the addon. I went for this approach as the prefab file was quite big and I thought putting it in the script will make the unnecassirily large (although I changed this later and ended up including the file in the script itself).
+
+I later added the code which sorts various animations and puts them in their respective `animationPools`. I was earlier creating classes for individual buttons but then upon my mentor's advice I created functions which I called from the classes. This however resulted in another problem regarding reporting errors and info messages.
+> `self.report` can directly be used in a `execute` function inside a class. But when calling a function passing `self.report` and adding `report = print` does the trick.
+
+## Texture
+Blender has various locations for storing the path of the texture file. At first I was trying to get file using the standard method I knew but that didn't work out for some reason that I could not figure out for some reason. Later I realized that the file that I had the default renderer set as `Cycles` and "Cycles" handle textures as nodes and was storing them somewhere else. I was able to figure out the location but for definite result I added other locations where the script would check for the texture file. The texture can now have the name `<modelName>.png` or <`modelName>Texture.png`. Still here?
+You can still skip to [TL;DR]({{ site.url }}/GSOC-2017/#tldr).
+
+## Material
+Material file too is a JSON file which contains the details about the mesh. It contains data like texture and shader for the mesh. I added the JSON file directly as a string to the code as it was pretty small. Then I could modify it similar to the earlier prefab file.
+> make sure to use `json.loads()` not `json.load()` 
+
+## Module(compressed/zip/jar) file
+This was a file which could be dropped into the `modules` directory and then could be used directly in game. This option was to be created in the `Export` menu along with the old export mesh option. My earlier approach was to create a folder in which I would export all the files and then compress that file. But then my mentor pointed out that that folder could already been there and could contain other files which would also be compressed in the same zip.
+So then I had to export the files to a temporary directory and then zip them. The problem was of "absolute paths" and quite a common one. 
+Asssume I export the file (`C:/Users/<User>/Desktop/file.file`) to a temporary directory and then zip it, the file would inside the zip would have a structure similar to `C:/Users/<User>/appdata/Roaming/temp/<tempFolder>/file.file`. This is the absolute path od the file. However I want the structure to be `file.file` that is the file is directly placed in the compressed file. Upon further researching I came upon a method which would work perfectly for my use and one which I would not end up using at all in my final code.
+The zip also needed a `module.txt` file which would describe the module and the dependencies that the module would need.
+
+## Back to the UIList Problem
+UIList currently contained the list of custom property which was populated with `actions` when a button was pressed. This method was not very intuitive as deleting actions was a long process and exporting animations resulted in creation of `fake user` every time I exported an animation. THe solution as suggested by my mentor was to scrap the old action import and use a method where every scene would contain an animation. Then I could iterate through all the scenes and extract animations out of them. This code required little change from the previous code. Once I made it a Screen Property there was no need to refresh the list with a button. The list would now refresh itself. It would now iterate through all the scenes and find the actions in that scene. The action would then be exported as individual `.md5anim` files.
+
+## Extra
+I also added a **+** button next to the path selection in the Panel. This button would enable the user to export everything to a directory. This is similar to the module export button except it won't compress the files. It would export everything int its respective directories. The script would then set the path for future export to that directory.  
+Here I learnt layout techniques in Blender API. For example using a `split` variable to split the row into two parts, 95% of it being occupied by the path selection and 5% by the "+" button(`ZOOMIN`).
+Here is the code for that.
+```
+split = row.split(align=True, percentage = 0.95)
+split.prop(preferences, "terasology_module_directory", text="Ter. Module", expand = True)
+split.operator(ExportModuleToFileForTerasology.bl_idname, text="", icon = 'ZOOMIN').filepath = ""
+```
+
+
+## Animation Test Tool
+A tool for testing the animations was needed. I used the code from `InspectionScreen` which was made my mentor and modified it to contain an option to Spawn an entity according to the user preferences. Currently the dialog allows editing the "Animation Speed" of the Entity. This is done by using the prefab of an existing entity and modifying it to contain all the changes according to the user needs.
+![Animation Speed]({{ site.url }}/assets/deerAnim.gif)  
+<small>Click [here](#) for more BTS images.</small>
+
+## Tutorial  
+Tutorial for using the addon can be found here:
+1. [Installing The Addon](https://github.com/Terasology/TutorialAssetSystem/wiki/Installing-Blender-Add-on)
+2. [Preparing model for export](https://github.com/Terasology/TutorialAssetSystem/wiki/Preparing-Model-for-Export)
+3. [Using the addon](https://github.com/Terasology/TutorialAssetSystem/wiki/Using-the-Blender-Add-on)
+
+## TL;DR
+Although not a lot of code was written in this project, most of the time was spent in research. The final product (in my oponion) is satisfactory and would prove to be a help to the artists for easy testing and debugging.
+Finally I learnt a lot during this summer especially about the blender API and about the game. I had worked mostly on UI for the game before this and with this project I learnt about various conventions and principles on which the game is built. 
+
+
+
+## Stats
+As I mentioned earlier the stats are not very impressive as I had to research a lot before tackling the problem.  
+The commits were made to [TeraMisc](https://github.com/MovingBlocks/TeraMisc) and [Terasology](https://github.com/MovingBlocks/Terasology) repository.  
+
+![Not impressive]({{ site.url }}/assets/contributions.jpg)  
+
+![contribution]({{ site.url }}/assets/teraMiscGraph.jpg)
+
+## **[This](https://github.com/MovingBlocks/TeraMisc/commits/master?author=kartikey0303)** is a list of my commits for the TeraMisc repository.
+
+## Future
+My work is however not complete. The animation test tool still needs to be completed. However it requires help from `Behaviour`. Right now my solution was to add the animations to every pool then there would be 50% probability of chaining animations for testing animations.
+
+<div class="hide">
+## TL;DR TL;DR
+The project was in my opinion was quite successful. I had no problem with the output result and I hope artists find the addon and tool helpful. However my work is not done yet. The animation test tool still needs to be completed. However it requires help from `Behaviour`. Right now my solution was to add the animations to every pool then there would be 50% probability of chaining animations for testing animations.
+</div>
