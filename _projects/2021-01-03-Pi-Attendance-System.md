@@ -2,7 +2,7 @@
 layout: post
 title: Raspberry Pi Attendance System
 image: /assets/img/project/raspberry.jpg
-accent_image: /assets/img/raspberry-bg.jpg
+accent_image: /assets/img/raspberry-bg.webp
 description: >-
   Raspberry Pi based Attendance system with College ID
 sitemap: false

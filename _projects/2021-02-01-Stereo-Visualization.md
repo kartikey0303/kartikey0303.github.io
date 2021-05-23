@@ -3,8 +3,8 @@ layout: post
 title: Stereo Visualization
 description: >-
   Unity project to visualize Stereo disparity maps
-image: /assets/img/project/Stereo_Vis.jpg
-accent_image: /assets/img/sidebar-bg-projects.png
+image: /assets/img/project/Stereo_Vis.webp
+accent_image: /assets/img/sidebar-bg-projects.webp
 sitemap: false
 last_modified_at: 2021-02-01
 ---

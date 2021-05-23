@@ -3,8 +3,8 @@ layout: post
 title: Swarm Robotics
 description: >-
   Mini robotics project, I started, probably abandoned now.
-image: /assets/img/project/SwarmV1.png
-accent_image: /assets/img/electronics-bg.jpg
+image: /assets/img/project/SwarmV1.webp
+accent_image: /assets/img/electronics-bg.webp
 sitemap: true
 last_modified_at: 2021-02-01
 ---

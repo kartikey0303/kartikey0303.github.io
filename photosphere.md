@@ -3,7 +3,7 @@ layout: post
 Title: Photospheres
 description: Collection of some Photospheres
 sitemap: false
-accent_image: /assets/img/sidebar-bg-sphere.png
+accent_image: /assets/img/sidebar-bg-sphere.webp
 ---
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/photo-sphere-viewer.min.css"/>
 
