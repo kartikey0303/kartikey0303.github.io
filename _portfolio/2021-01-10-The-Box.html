@@ -1,0 +1,52 @@
+---
+layout: post
+title: The Box
+description: >-
+  2D side-scroller in Unity with a narrative
+image: /assets/img/portfolio/The-box/box.png
+sitemap: false
+categories: portfolio
+images:
+  - image_path: /assets/img/portfolio/The-box/Box_1.jpg
+    title: Screenshot 1
+    size: full
+  - image_path: /assets/img/portfolio/The-box/Box_2.jpg
+    title: Screenshot 2
+    size: full
+  - image_path: /assets/img/portfolio/The-box/Box_3.jpg
+    title: Screenshot 3
+    size: full
+  - image_path: /assets/img/portfolio/The-box/rewind.mp4
+    title: Rewind System
+    size: video
+---
+
+<ul class="photo-gallery">
+  {% for image in page.images %}
+  {% if image.size == "half" %}
+    <li class="half">
+      <a href="{{ image.image_path }}" id="port_image">
+        <img src="{{ image.image_path }}" alt="{{ image.title}}"/>
+      </a>
+      <p>{{image.title}}</p>
+    </li>
+  {% elsif image.size == "full" %}
+    <li class="full">
+      <a href="{{ image.image_path }}" id="port_image">
+        <img src="{{ image.image_path }}" alt="{{ image.title}}"/>
+      </a>
+      <p>{{image.title}}</p>
+    </li>
+    {% elsif image.size == "video" %}
+      <li class="full">
+        <a href="{{ image.image_path }}" id="port_image">
+          <video autoplay muted loop>
+            <source src="{{ image.image_path }}" type="video/mp4" />
+          <!-- <img src="{{ image.image_path }}" alt="{{ image.title}}"/> -->
+          </video>
+        </a>
+        <p>{{image.title}}</p>
+      </li>
+  {% endif %}
+  {% endfor %}
+</ul>

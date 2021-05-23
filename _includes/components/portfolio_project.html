@@ -1,0 +1,24 @@
+{% assign post             = include.post             %}
+{% assign no_link_title    = include.no_link_title    %}
+{% assign no_excerpt       = include.no_excerpt       %}
+{% assign hide_image       = include.hide_image       %}
+{% assign hide_description = include.hide_description %}
+
+<article id="post{{ post.id | replace:'/','-' }}" class="project-card">
+  <a href="{{ post.url | relative_url }}" class="no-hover no-print-link flip-project" tabindex="-1">
+      {% if post.image %}
+        <div class="portfolio-card-img aspect-ratio sixteen-nine flip-project-img">
+      {% else %}
+        <div class="portfolio-card-no-img aspect-ratio sixteen-nine flip-project-img">
+      {% endif %}
+        {% if post.image %}
+          {% include_cached components/hy-img.html img=post.image alt=post.title width=864 height=486 %}
+        {% endif %}
+      </div>
+    </a>
+    <h3 class="project-card-title flip-project-title">
+      {% unless no_link_title %}<a href="{{ post.url | relative_url }}" class="flip-title">{% endunless %}
+        {{ post.title }}
+      {% unless no_link_title %}</a>{% endunless %}
+    </h3>
+</article>

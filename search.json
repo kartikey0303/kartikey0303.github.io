@@ -1,0 +1,38 @@
+---
+layout: none
+---
+[
+  {% for post in site.posts %}
+    {
+      "title"    : "{{ post.title | escape }}",
+      "category" : "{{ post.categories }}",
+      "tags"     : "{{ post.tags | join: ', ' }}",
+      "url"      : "{{ site.baseurl }}{{ post.url }}",
+      "date"     : "{{ post.date }}",
+      "desc"     : "{{ post.description }}",
+      "image"    : "{{ post.image }}"
+    } ,
+  {% endfor %}
+  {% for post in site.portfolio %}
+    {
+      "title"    : "{{ post.title | escape }}",
+      "category" : "{{ post.categories }}",
+      "tags"     : "{{ post.tags | join: ', ' }}",
+      "url"      : "{{ site.baseurl }}{{ post.url }}",
+      "date"     : "{{ post.date }}",
+      "desc"     : "{{ post.description }}",
+      "image"    : "{{ post.image }}"
+    } {% unless forloop.last %},{% endunless %}
+  {% endfor %} ,
+  {% for post in site.projects %}
+    {
+      "title"    : "{{ post.title | escape }}",
+      "category" : "{{ post.categories }}",
+      "tags"     : "{{ post.tags | join: ', ' }}",
+      "url"      : "{{ site.baseurl }}{{ post.url }}",
+      "date"     : "{{ post.date }}",
+      "desc"     : "{{ post.description }}",
+      "image"    : "{{ post.image }}"
+    } {% unless forloop.last %},{% endunless %}
+  {% endfor %}
+]
