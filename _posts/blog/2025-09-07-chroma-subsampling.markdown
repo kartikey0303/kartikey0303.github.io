@@ -8,7 +8,7 @@ tags: [website, jekyll]
 last_modified_at: 2025-09-07
 ---
 
-
+{% raw %}
 <style>
   #yuv-demo .grid {
     display: grid;
@@ -78,6 +78,7 @@ last_modified_at: 2025-09-07
     color: #2563eb;
   }
 </style>
+{% endraw %}
 
 <div id="yuv-demo"
   style="font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; line-height:1.35;">
@@ -185,9 +186,9 @@ last_modified_at: 2025-09-07
     <summary><strong>Step 1: RGB → YUV</strong></summary>
     <p>For each pixel <code>(r, g, b)</code>:</p>
     <pre>
-Y = 0.299r + 0.587g + 0.114b
-U = -0.169r - 0.331g + 0.500b + 128
-V =  0.500r - 0.419g - 0.081b + 128
+      Y = 0.299r + 0.587g + 0.114b
+      U = -0.169r - 0.331g + 0.500b + 128
+      V =  0.500r - 0.419g - 0.081b + 128
   </pre>
     <p>So every pixel gets its own <strong>Y</strong>, <strong>U</strong>, and <strong>V</strong> values.</p>
   </details>
@@ -205,8 +206,8 @@ V =  0.500r - 0.419g - 0.081b + 128
         horizontal neighbors</em>.
     </p>
     <pre>
-U₄₂₂ = (U₀ + U₁) / 2
-V₄₂₂ = (V₀ + V₁) / 2
+      U₄₂₂ = (U₀ + U₁) / 2
+      V₄₂₂ = (V₀ + V₁) / 2
   </pre>
     <p>Each pixel still has its own Y, but both share the same U, V values → horizontal chroma detail is reduced.</p>
   </details>
@@ -217,8 +218,8 @@ V₄₂₂ = (V₀ + V₁) / 2
       Now we average U and V across a <strong>2×2 block</strong> of pixels:
     </p>
     <pre>
-U₄₂₀ = (U₀₀ + U₀₁ + U₁₀ + U₁₁) / 4
-V₄₂₀ = (V₀₀ + V₀₁ + V₁₀ + V₁₁) / 4
+      U₄₂₀ = (U₀₀ + U₀₁ + U₁₀ + U₁₁) / 4
+      V₄₂₀ = (V₀₀ + V₀₁ + V₁₀ + V₁₁) / 4
   </pre>
     <p>Each pixel in the block keeps its own Y, but they all share the same U, V →
       both horizontal and vertical chroma detail are reduced.</p>
@@ -228,9 +229,9 @@ V₄₂₀ = (V₀₀ + V₀₁ + V₁₀ + V₁₁) / 4
     <summary><strong>Step 5: YUV → RGB</strong></summary>
     <p>When reconstructing, we combine each pixel’s Y with the shared U, V:</p>
     <pre>
-R = Y + 1.402 (V - 128)
-G = Y - 0.344136 (U - 128) - 0.714136 (V - 128)
-B = Y + 1.772 (U - 128)
+      R = Y + 1.402 (V - 128)
+      G = Y - 0.344136 (U - 128) - 0.714136 (V - 128)
+      B = Y + 1.772 (U - 128)
   </pre>
     <p>This gives the final RGB value used to draw the pixel.</p>
   </details>
@@ -238,6 +239,7 @@ B = Y + 1.772 (U - 128)
 </div>
 
 
+{% raw %}
 <script>
   (function () {
     const N = 8, SCALE = 20, W = N * SCALE, H = N * SCALE;
@@ -334,3 +336,4 @@ B = Y + 1.772 (U - 128)
     resetCanvas();
   })();
 </script>
+{% endraw %}
