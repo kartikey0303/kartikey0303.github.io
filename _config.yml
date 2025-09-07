@@ -108,13 +108,9 @@ collections:
 # Theme
 # ---------------------------------------------------------------------------------------
 
-# This will use the gem `jekyll-theme-hydejack`, as defined in the sibling `Gemfile`.
-theme: jekyll-theme-hydejack
+# theme: jekyll-theme-hydejack
+remote_theme: hydecorp/hydejack@v9.1.2
 
-# You can uncomment `theme` above and replace it with `remote_theme` here iff you are using the 
-# `jekyll-remote-theme` plugin (which is the case when using the legacy GitHub Pages pipeline).
-# This will fetch the `v9` branch of the public Hydejack repository on GitHub.
-# remote_theme: hydecorp/hydejack@v9
 
 # Customizaton
 # ----------------------------------------------------------------------------------------
@@ -130,19 +126,18 @@ theme_color:           rgb(8,46,57)
 
 # The string encoding which fonts to fetch from Google Fonts.
 # See: <https://hydejack.com/docs/configuration/>
-# google_fonts:          Roboto+Slab:700|Noto+Sans:400,400i,700,700i
+google_fonts:          Roboto+Slab:700|Noto+Sans:400,400i,700,700i
 
 # The text font. Expects a string that is a valid CSS font-family value.
 # To change font-weight, see _sass/variables.scss
-# font:                  Noto Sans, Helvetica, Arial, sans-serif
+font:                  Noto Sans, Helvetica, Arial, sans-serif
 
 # The font used for headings. Expects a string that is a valid CSS font-family value.
 # To change font-weight, see _sass/variables.scss
-# font_heading:          Roboto Slab, Helvetica, Arial, sans-serif
+font_heading:          Roboto Slab, Helvetica, Arial, sans-serif
 
-# The font used for code blocks. Expects a string that is a valid CSS font-family value. 
-# Defaults to the [System Monospace Font Stack](https://qwtel.com/posts/software/the-monospaced-system-ui-css-font-stack/).
-# font_code:             Fira Code, Menlo, Monaco, Consolas, monospace;
+# The font used for code blocks. Expects a string that is a valid CSS font-family value.
+font_code:             Fira Code, Menlo, Monaco, Consolas, monospace;
 
 defaults:
   # You can use this to provide a default accent color and background for
@@ -151,7 +146,6 @@ defaults:
       path:            hyde/
     values:
       accent_color:    rgb(38,139,210)
-      theme_color:     rgb(32,32,32)
       accent_image:
         background:    rgb(32,32,32)
         overlay:       false
@@ -166,12 +160,11 @@ defaults:
   - scope:
       path:            licenses/
     values:
-      layout:          plain
       sitemap:         false
 
   # # You can use the following to enable comments on all posts.
   # - scope:
-  #     type:            posts
+  #    type:            posts
   #   values:
   #     comments:        true
 
@@ -192,6 +185,27 @@ defaults:
     values:
       seo:
         type:          WebPage
+
+kramdown:
+  math_engine:         katex
+  math_engine_opts:    {}
+  footnote_backlink:   '&#x21a9;&#xfe0e;'
+
+
+# 3rd Party Integrations
+# ----------------------------------------------------------------------------------------
+
+# Set your Google Analytics id to receive `pageview` events.
+# To remove Google Anaylics from your page, remove the line below.
+# google_analytics:      <id>
+
+# Setting a disqus shortname will enable the comment section on
+# pages with `comments: true` in the front matter.
+# disqus:                <username>
+
+# Setting a tinyletter username will enable the newsletter subscription box.
+# PRO version only!
+# tinyletter:            <username>
 
 
 # Hydejack Settings
@@ -228,7 +242,7 @@ hydejack:
   # This will increase site build speed dramatically!
   no_inline_css:       false
 
-  # Set to `true` if you don't intend on changing the accent color on a per-page basis. 
+  # Set to `true` if you don't intend on changing the accent color on a per-page basis.
   # This will increase site build speed!
   no_page_style:       false
 
@@ -255,16 +269,12 @@ hydejack:
   # This only affects the meta tag, not the color specified in the app manifest.
   no_theme_color:      false
 
-  # Disable the breadcrumbs above the title
-  no_breadcrumbs:      false
-
-  # Set to `true` when building with the `--lsi` option.
-  # The net effect is to use the Jekyll-provided `site.related_posts` variable.
+  # Set to `true` when building with the `--lsi` option
   use_lsi:             true
 
   # When using Google Analytics, set to `true` to display a cookie notice banner.
   # When enabled, no user-related data will be stored until the user gives consent.
-  cookies_banner:      false
+  cookies_banner:      true
 
   # Set to `true` if you would like to add a "Powered by Hydejack" link in the footer.
   # Note that this setting has no effect when using the free version.
@@ -272,11 +282,8 @@ hydejack:
 
   # Buyers of the PRO version can opt to hide all dates from the theme.
   # Frequent consumers of online content will know that nothing devalues a post like
-  # seeing an old date. 
+  # seeing an old date.
   hide_dates:          false
-
-  # Similarly, showing last modified date can devalue a post if it is too far in the past.
-  hide_last_modified:  false
 
   # Note that dark mode only works in the PRO version of Hydejack.
   dark_mode:
@@ -295,7 +302,7 @@ hydejack:
   # Only use if you know what Service Workers are and how they can impact your site!
   offline:
     enabled:           false
-    cache_version:     13
+    cache_version:     7
     precache_assets:
       - /assets/img/swipe.svg
 
@@ -306,15 +313,10 @@ hydejack:
 exclude:
   - .jekyll-cache
   - .sass-cache
-  - .ruby-lsp
-  - .wrangler
-  - '*.toml'
   - vendor
   - Gemfile
   - Gemfile.lock
-  - functions
 include:
-  - _routes.json
   - .well-known
   - LICENSE.md
 
@@ -384,7 +386,7 @@ titles_from_headings:
   collections:         true
 
 compress_html:
-  comments:            ["<!--", "-->"]
+  comments:            ["<!-- ", " -->"]
   clippings:           all
   endings:             all
   ignore:
