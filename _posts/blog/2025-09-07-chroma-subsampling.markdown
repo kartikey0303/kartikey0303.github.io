@@ -6,6 +6,7 @@ sitemap: true
 category: blog
 tags: [website, jekyll]
 last_modified_at: 2025-09-07
+excerpt_separator: <!--more-->
 ---
 
 {% raw %}
